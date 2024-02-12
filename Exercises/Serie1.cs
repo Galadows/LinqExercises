@@ -1,14 +1,20 @@
 using System;
 using System.Linq;
+using System.Reflection;
+using Microsoft.VisualBasic;
 
-// Exercice
+
 public static class Utils
 {
     public static void logEnum<T>(IEnumerable<T> COLLECTION)
     {
         foreach (var VARIABLE in COLLECTION)
         {
-            Console.Write(VARIABLE + ", ");
+            Console.Write(VARIABLE);
+            if (!EqualityComparer<T>.Default.Equals(VARIABLE, COLLECTION.Last()))
+            {
+                Console.WriteLine(", ");
+            }
         }
         Console.WriteLine();
     }
@@ -19,16 +25,49 @@ public static class Utils
         var prop = type.GetProperty(key);
         foreach (var VARIABLE in COLLECTION)
         {
-            Console.Write(prop.GetValue(VARIABLE, null) + ", ");
+            Console.Write(prop.GetValue(VARIABLE, null));
+            if (!EqualityComparer<T>.Default.Equals(VARIABLE, COLLECTION.Last()))
+            {
+                Console.WriteLine(", ");
+            }
+        }
+        Console.WriteLine();
+    }
+    
+    public static void logEnum<T>(IEnumerable<T> COLLECTION, string[] keys)
+    {
+        List<PropertyInfo> propList = new List<PropertyInfo>();
+        foreach (var key in keys)
+        {
+            Type type = typeof(T);
+            PropertyInfo prop = type.GetProperty(key);
+            propList.Add(prop);
+        }
+        
+        
+        foreach (var variable in COLLECTION)
+        {
+            foreach (var prop in propList)
+            {
+                Console.Write(prop.Name + ":" + prop.GetValue(variable, null));
+                //Remove last dash
+                if (prop != propList.Last())
+                {
+                    Console.Write(" - ");
+                }
+            }
+
+            if (!EqualityComparer<T>.Default.Equals(variable, COLLECTION.Last()))
+            {
+                Console.WriteLine(", ");
+            }
         }
         Console.WriteLine();
     }
 }
 
+// Exercice
 public static class Serie1{
-    
-
-
 public static void Ex1()
 {
     List<int> entiers = new List<int> { 4, 5, 2, 3, 1, 1, 0, 5, 8, 9, 10, 15, 16, 20, 21, 4, 5 };

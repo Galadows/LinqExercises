@@ -44,8 +44,9 @@ public static class Serie2
         var olderThan4MoreThan5LettersName = belgianShepherd.Where(d => d.Name.Length > 5 && d.Age > 4);
         Console.WriteLine("Older than 4 and more than 5 letters name:");
         var sortedByWeight = olderThan4MoreThan5LettersName.OrderBy(d => d.Weight);
-        Utils.logEnum<Dog>(sortedByWeight, "Name");
+        Utils.logEnum<Dog>(sortedByWeight, new string[]{ "Name", "Weight" });
         var sortedByAgeThenWeight = belgianShepherd.OrderBy(d => d.Age).ThenBy(d => d.Weight);
+        Utils.logEnum<Dog>(sortedByWeight, new string[]{ "Name", "Age", "Weight" });
         Console.WriteLine("Sorted by age then weight:");
         var oneWordRaceLessThan15KgNameContainsISortByName = dogs.Where(d => d.Race.Split(' ').Length == 1 && d.Weight < 15 && d.Name.Contains("i")).OrderBy(d => d.Name);
         Utils.logEnum<Dog>(oneWordRaceLessThan15KgNameContainsISortByName, "Name");
